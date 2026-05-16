@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Simpol Wallet — Case Study · Alexander Tishchenko</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -19,7 +19,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;over
 .cursor{width:12px;height:12px;background:var(--accent);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
 .cursor-ring{width:36px;height:36px;border:1px solid rgba(200,240,90,0.4);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:transform 0.32s cubic-bezier(.17,.67,.35,1.2)}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.35}
-nav{position:fixed;top:0;left:0;right:0;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;z-index:100;border-bottom:1px solid var(--border);background:rgba(8,10,15,0.9);backdrop-filter:blur(20px)}
+nav{position:fixed;top:0;left:0;right:0;padding:calc(20px + env(safe-area-inset-top)) 60px 20px;display:flex;align-items:center;justify-content:space-between;z-index:100;border-bottom:1px solid var(--border);background:rgba(8,10,15,0.9);backdrop-filter:blur(20px)}
 .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--text);text-decoration:none}
 .nav-logo span{color:var(--accent)}
 .nav-back{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
@@ -80,8 +80,8 @@ section{padding:100px 60px;position:relative}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border)}
-@media(max-width:900px){
-  nav{padding:20px 24px}section{padding:72px 24px}.hero{padding:120px 24px 60px}
+@media(max-width:900px){.cursor,.cursor-ring{display:none}body{cursor:auto}
+  nav{padding:20px 24px}section{padding:72px 24px}.hero{padding:90px 20px 48px}.hero-title{font-size:clamp(28px,9vw,52px);letter-spacing:-1px;word-break:normal}.hero-meta{grid-template-columns:1fr 1fr}.back-cta h2{font-size:clamp(28px,8vw,36px)}
   .ov-grid{grid-template-columns:1fr}.typo-grid{grid-template-columns:1fr}
   .hero-meta{grid-template-columns:1fr 1fr}.colors-grid{grid-template-columns:1fr 1fr 1fr}
   .stats-grid{grid-template-columns:1fr}.back-cta{padding:60px 24px}.back-cta h2{font-size:36px}
@@ -92,8 +92,8 @@ section{padding:100px 60px;position:relative}
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <nav>
-  <a href="index.html" class="nav-back">Назад к портфолио</a>
-  <a href="index.html" class="nav-logo">AT<span>.</span></a>
+  <a href="portfolio.html" class="nav-back">Назад к портфолио</a>
+  <a href="portfolio.html" class="nav-logo">AT<span>.</span></a>
 </nav>
 
 <section class="hero">
@@ -194,16 +194,16 @@ section{padding:100px 60px;position:relative}
 <div class="back-cta">
   <h2>Больше<br><em>работ</em></h2>
   <div class="btn-group">
-    <a href="index.html" class="back-btn">← Портфолио</a>
+    <a href="portfolio.html" class="back-btn">← Портфолио</a>
     <a href="https://www.behance.net/gallery/173628561/Simpol-Wallet-App-Product-Case" target="_blank" class="ext-btn">Behance →</a>
   </div>
 </div>
 
 <script>
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');const isTouch=window.matchMedia('(hover:none) and (pointer:coarse)').matches;if(isTouch){cursor.style.display='none';ring.style.display='none';document.body.style.cursor='auto'}
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.transform=`translate(${mx-6}px,${my-6}px)`;});
-function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.transform=`translate(${rx-18}px,${ry-18}px)`;requestAnimationFrame(animRing);}
+document.addEventListener('mousemove',e=>{if(isTouch)return;mx=e.clientX;my=e.clientY;cursor.style.transform=`translate(${mx-6}px,${my-6}px)`;});
+function animRing(){if(!isTouch){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.transform=`translate(${rx-18}px,${ry-18}px)`;}requestAnimationFrame(animRing);}
 animRing();
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));

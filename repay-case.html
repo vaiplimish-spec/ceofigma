@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>RePay — Case Study · Alexander Tishchenko</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -30,7 +30,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;over
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.35}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;z-index:100;border-bottom:1px solid var(--border);background:rgba(8,10,15,0.9);backdrop-filter:blur(20px)}
+nav{position:fixed;top:0;left:0;right:0;padding:calc(20px + env(safe-area-inset-top)) 60px 20px;display:flex;align-items:center;justify-content:space-between;z-index:100;border-bottom:1px solid var(--border);background:rgba(8,10,15,0.9);backdrop-filter:blur(20px)}
 .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--text);text-decoration:none}
 .nav-logo span{color:var(--accent)}
 .nav-back{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s}
@@ -177,17 +177,17 @@ section{padding:120px 60px;position:relative}
 ::-webkit-scrollbar-thumb{background:var(--muted)}
 ::-webkit-scrollbar-thumb:hover{background:var(--repay-blue)}
 
-@media(max-width:900px){
+@media(max-width:900px){.cursor,.cursor-ring{display:none}body{cursor:auto}
   nav{padding:20px 24px}
   section{padding:80px 24px}
-  .hero{padding:120px 24px 60px}
+  .hero{padding:90px 20px 48px}
   .overview-grid,.screens-intro,.combo-layout{grid-template-columns:1fr}
   .uikit-grid{grid-template-columns:1fr}
   .screens-2col,.screens-3col{grid-template-columns:1fr}
   .results-grid{grid-template-columns:1fr 1fr!important}
   .hero-meta{grid-template-columns:1fr 1fr}
   .back-cta{padding:60px 24px}
-  .back-cta h2{font-size:36px}
+  .back-cta h2{font-size:clamp(28px,8vw,36px)}
 }
 </style>
 </head>
@@ -197,8 +197,8 @@ section{padding:120px 60px;position:relative}
 <div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
-  <a href="index.html" class="nav-back">Назад к портфолио</a>
-  <a href="index.html" class="nav-logo">AT<span>.</span></a>
+  <a href="portfolio.html" class="nav-back">Назад к портфолио</a>
+  <a href="portfolio.html" class="nav-logo">AT<span>.</span></a>
 </nav>
 
 <!-- HERO -->
@@ -408,7 +408,7 @@ section{padding:120px 60px;position:relative}
   <style>
     .patterns-grid{display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
     .anatomy-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-    @media(max-width:900px){
+    @media(max-width:900px){.cursor,.cursor-ring{display:none}body{cursor:auto}
       .patterns-grid{grid-template-columns:1fr}
       .anatomy-3col{grid-template-columns:1fr}
       section[class=""]{padding-left:24px;padding-right:24px}
@@ -665,7 +665,7 @@ section{padding:120px 60px;position:relative}
     .stat-big{background:var(--card);padding:40px 36px}
     .stat-big-num{font-family:'Syne',sans-serif;font-size:clamp(36px,4vw,56px);font-weight:800;letter-spacing:-2px;line-height:1;color:var(--repay-blue);margin-bottom:10px}
     .stat-big-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.6}
-    @media(max-width:900px){
+    @media(max-width:900px){.cursor,.cursor-ring{display:none}body{cursor:auto}
       .roles-grid{grid-template-columns:1fr 1fr}
       .stats-grid{grid-template-columns:1fr}
     }
@@ -725,20 +725,20 @@ section{padding:120px 60px;position:relative}
 <!-- BACK -->
 <div class="back-cta">
   <h2>Смотри<br><em>другие</em> проекты</h2>
-  <a href="index.html" class="back-btn">← Вернуться к портфолио</a>
+  <a href="portfolio.html" class="back-btn">← Вернуться к портфолио</a>
 </div>
 
 <script>
-const cursor=document.getElementById('cursor');
-const ring=document.getElementById('cursorRing');
+const isTouch=window.matchMedia('(hover:none) and (pointer:coarse)').matches;const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursorRing');if(isTouch){cursor.style.display='none';ring.style.display='none';document.body.style.cursor='auto'}
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
+document.addEventListener('mousemove',e=>{if(isTouch)return;
   mx=e.clientX;my=e.clientY;
   cursor.style.transform=`translate(${mx-6}px,${my-6}px)`;
 });
-function animRing(){
+function animRing(){if(!isTouch){
   rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-  ring.style.transform=`translate(${rx-18}px,${ry-18}px)`;
+  ring.style.transform=`translate(${rx-18}px,${ry-18}px)`;}
   requestAnimationFrame(animRing);
 }
 animRing();

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Alexander Tishchenko — Art Director & UI/UX Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -68,7 +68,7 @@
   /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0;
-    padding: 24px 60px;
+    padding: calc(24px + env(safe-area-inset-top)) 60px 24px;
     display: flex; align-items: center; justify-content: space-between;
     z-index: 100;
     border-bottom: 1px solid var(--border);
@@ -129,17 +129,44 @@
 
   .hero-glow {
     position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(200,240,90,0.08) 0%, transparent 70%);
-    top: -100px; right: -100px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(200,240,90,0.10) 0%, transparent 70%);
+    top: -150px; right: -150px;
     pointer-events: none;
+    animation: glowMove1 12s ease-in-out infinite;
   }
   .hero-glow2 {
     position: absolute;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(90,240,200,0.06) 0%, transparent 70%);
-    bottom: 100px; left: 200px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(90,240,200,0.08) 0%, transparent 70%);
+    bottom: 50px; left: 150px;
     pointer-events: none;
+    animation: glowMove2 16s ease-in-out infinite;
+  }
+  .hero-glow3 {
+    position: absolute;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(200,240,90,0.06) 0%, transparent 70%);
+    top: 40%; left: 40%;
+    pointer-events: none;
+    animation: glowMove3 20s ease-in-out infinite;
+  }
+  @keyframes glowMove1 {
+    0%   { transform: translate(0px, 0px) scale(1); }
+    33%  { transform: translate(-80px, 60px) scale(1.15); }
+    66%  { transform: translate(50px, -40px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  @keyframes glowMove2 {
+    0%   { transform: translate(0px, 0px) scale(1); }
+    33%  { transform: translate(100px, -70px) scale(1.2); }
+    66%  { transform: translate(-60px, 50px) scale(0.85); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  @keyframes glowMove3 {
+    0%   { transform: translate(0px, 0px) scale(1); opacity: 0.6; }
+    50%  { transform: translate(-120px, 80px) scale(1.3); opacity: 1; }
+    100% { transform: translate(0px, 0px) scale(1); opacity: 0.6; }
   }
 
   .hero-left {
@@ -689,21 +716,69 @@
   ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
   @media (max-width: 900px) {
+    /* Скрываем курсор на мобильных */
+    .cursor, .cursor-ring { display: none; }
+    body { cursor: auto; }
+
     nav { padding: 20px 24px; }
     .nav-links { display: none; }
-    section { padding: 80px 24px; }
-    .hero { grid-template-columns: 1fr; padding: 24px; padding-top: 100px; gap: 48px; }
+    .nav-cta { padding: 8px 16px; font-size: 10px; }
+
+    section { padding: 64px 20px; }
+
+    /* Hero */
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 20px;
+      padding-top: 90px;
+      gap: 40px;
+      min-height: auto;
+    }
+    .hero-name {
+      font-size: clamp(28px, 9vw, 52px);
+      letter-spacing: -1px;
+      word-break: normal;
+    }
+    .hero-role { font-size: 18px; margin-bottom: 24px; }
+    .hero-desc { font-size: 12px; margin-bottom: 32px; max-width: 100%; }
+    .hero-actions { flex-direction: column; gap: 12px; }
+    .btn-primary, .btn-ghost { text-align: center; padding: 14px 24px; }
+    .hero-badge { margin-bottom: 28px; }
+
+    /* Stats */
     .hero-right { align-items: flex-start; }
     .hero-stats-grid { width: 100%; }
-    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .stat-num { font-size: 36px; }
+    .stat-cell { padding: 24px 20px; }
+
+    /* About */
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .section-title { font-size: clamp(28px, 8vw, 44px); letter-spacing: -1px; }
+
+    /* Projects */
     .projects-grid { grid-template-columns: 1fr; }
+    .project-card { padding: 20px; }
     .project-card.wide { grid-template-columns: 1fr; }
     .project-card.wide .project-img-placeholder { height: 200px; }
     .project-card.wide .project-arrow { display: none; }
-    .process-grid { grid-template-columns: 1fr 1fr; }
-    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .project-title { font-size: 22px; }
+
+    /* Process */
+    .process-grid { grid-template-columns: 1fr; }
+
+    /* Contact */
+    .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+    .contact-title { font-size: clamp(36px, 9vw, 56px); letter-spacing: -2px; }
+    .cl-label { font-size: 16px; }
+
+    /* Footer */
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 20px; }
+
+    /* Experience */
     .exp-item { grid-template-columns: 1fr; gap: 8px; }
+
+    /* Overflow protection */
+    body { overflow-x: hidden; }
   }
 </style>
 </head>
@@ -730,6 +805,8 @@
   <div class="hero-bg-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow2"></div>
+  <div class="hero-glow3"></div>
+  
 
   <div class="hero-left">
     <div class="hero-badge">Available for opportunities</div>
@@ -1301,20 +1378,30 @@
 </footer>
 
 <script>
-  // Custom cursor
+  // Custom cursor — только на десктопе
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   let mx = 0, my = 0, rx = 0, ry = 0;
 
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (isTouch) {
+    cursor.style.display = 'none';
+    ring.style.display = 'none';
+    document.body.style.cursor = 'auto';
+  }
+
   document.addEventListener('mousemove', e => {
+    if (isTouch) return;
     mx = e.clientX; my = e.clientY;
     cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
   });
 
   function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    if (!isTouch) {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    }
     requestAnimationFrame(animRing);
   }
   animRing();
@@ -1337,6 +1424,7 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
 
 
 </script>
