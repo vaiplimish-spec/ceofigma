@@ -1037,8 +1037,9 @@
     <button class="pf-btn" onclick="filterProjects('behance')">Кейсы с Behance</button>
     <button class="pf-btn" onclick="filterProjects('pet')">Мой пэт-проект</button>
   </div>
-  <div style="margin-top:16px;margin-bottom:48px;font-size:11px;letter-spacing:0.06em;color:#c8f05a;border-left:2px solid rgba(200,240,90,0.5);padding-left:12px;">
-    Портфолио находится в разработке — некоторые кейсы, элементы и детали могут отображаться некорректно.
+  <div style="margin-top:16px;margin-bottom:48px;display:inline-flex;align-items:center;gap:10px;background:rgba(255,210,0,0.08);border:1px solid rgba(255,210,0,0.35);padding:8px 16px;">
+    <span style="font-size:13px;">⚠</span>
+    <span style="font-size:11px;letter-spacing:0.06em;color:#ffd200;font-family:'DM Mono',monospace;">Портфолио в разработке — кейсы, элементы и детали могут отображаться некорректно</span>
   </div>
 
   <div id="projects-best">
@@ -1214,7 +1215,10 @@
         <span class="ptag">Art Direction</span>
       </div>
       <a href="siakera-uikit-case.html" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid rgba(200,240,90,0.25);padding:10px 20px;transition:all 0.2s;" onmouseover="this.style.background='rgba(200,240,90,0.08)'" onmouseout="this.style.background='transparent'">Изучить кейс →</a>
-      <div style="margin-top:10px;font-size:10px;letter-spacing:0.08em;color:#c8f05a;">⚠ Смотреть строго с ПК — мобильный адаптив и экраны в разработке</div>
+      <div style="margin-top:10px;display:inline-flex;align-items:center;gap:8px;background:rgba(255,210,0,0.08);border:1px solid rgba(255,210,0,0.35);padding:6px 12px;">
+        <span style="font-size:11px;">⚠</span>
+        <span style="font-size:10px;letter-spacing:0.08em;color:#ffd200;font-family:'DM Mono',monospace;">Смотреть строго с ПК — мобильный адаптив и экраны в разработке</span>
+      </div>
     </div>
 
     <!-- RePay -->
@@ -1557,8 +1561,8 @@
       document.querySelectorAll('#projects-best .project-card:not([data-id="keymkt"])').forEach(card => {
         recentGrid.appendChild(card.cloneNode(true));
       });
-      // Simpol Wallet из behance
-      const simpolCard = document.querySelector('#projects-behance .project-card[data-id="simpol"]');
+      // Simpol Wallet — ищем во всём документе
+      const simpolCard = document.querySelector('.project-card[data-id="simpol"]');
       if (simpolCard) recentGrid.appendChild(simpolCard.cloneNode(true));
     }
 
